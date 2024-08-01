@@ -1,16 +1,21 @@
 'use client'
 import { useState, useEffect } from "react"
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
 export function useFlags () {
-    const [ flags, setFlags ] = useState()
+    const [ country, setCountry ] = useState()
 
     useEffect(() => {
         fetch(`https://countriesnow.space/api/v0.1/countries/flag/images`)
             .then(res => res.json())
             .then(response => {
-                setFlags(response.data)
+                const randomIndex = getRandomInt(response.data.length);
+                setCountry(response.data[randomIndex]);
             })
     }, [])
 
-    return { flags }
+    return { country }
 }

@@ -1,19 +1,28 @@
 'use client'
+import { useSession } from "@/hooks/useSession";
 import styles from "./page.module.css";
 import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
+  const { changeUsername } = useSession();
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const { username } = Object.fromEntries(new FormData(e.target))
     
     if(username){
-      console.log(username)
+      changeUsername(username)
       router.push('/game')
     }
   }
+
+  useEffect(() => {
+    if(localStorage.getItem('username')) {
+      router.push('/game')
+    }
+  }, [router])
 
   return (
     <main className={styles.main}>
