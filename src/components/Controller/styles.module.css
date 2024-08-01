@@ -1,0 +1,15 @@
+.controller{
+    display: flex;
+    gap: 15px;
+}
+
+.controllerButton{
+    border-radius: 12px;
+    border: none;
+}
+
+.controllerInput{
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: none;
+}
