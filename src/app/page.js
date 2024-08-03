@@ -19,10 +19,10 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if(localStorage.getItem('username')) {
-      router.push('/game')
+    if (localStorage.getItem('username')) {
+      router.push('/game');
     }
-  }, [router])
+  }, [router]);
 
   return (
     <main className={styles.main}>

@@ -1,20 +1,36 @@
 'use client'
 import styles from "./page.module.css";
-import { useFlags } from "@/hooks/useFlags";
 import Controller from "@/components/Controller";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import Header from "@/components/Header";
+import { useSession } from "@/hooks/useSession";
+import { useEffect } from "react";
+import { useRouter } from 'next/navigation';
+import Bottom from "@/components/Bottom";
+
 
 export default function Game() {
-  const { country } = useFlags()
+  const router = useRouter();
+  const { session, hasFinished, changeLeaderboard } = useSession()
+
+  useEffect(() => {
+    if(hasFinished()) {
+      // changeLeaderboard(session.username, session.score)
+      router.push("/winner")
+    }
+  }, [hasFinished, router])
 
   return (
-    <div className={styles.main}>
+    <>
+      <Header/>
+      <div className={styles.main}>
         <h1>Adiviná la bandera!</h1>
         {
-          country && <Image src={country.flag} width={500} height={500} alt={country.name}/>
+          session.country && <Image src={session.country.flag} width={500} height={500} alt={session.country.name}/>
         }
-        <Controller country={country}></Controller>
-    </div>
+        <Controller country={session.country} />
+      </div>
+      <Bottom/>
+    </>
   );
 }
