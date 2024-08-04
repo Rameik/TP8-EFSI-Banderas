@@ -11,14 +11,20 @@ const shuffle = (array) => {
 export function useFlags () {
     const [ flags, setFlags ] = useState()
 
-    useEffect(() => {
-        fetch(`https://countriesnow.space/api/v0.1/countries/flag/images`)
-            .then(res => res.json())
-            .then(response => {
-                const shuffledFlags = shuffle(response.data).slice(0, 2);
-                setFlags(shuffledFlags)
-            })
-    }, [])
+    const fetchFlags = async () => {
+        try {
+            const response = await fetch(`https://countriesnow.space/api/v0.1/countries/flag/images`);
+            const data = await response.json();
+            const shuffledFlags = shuffle(data.data).slice(0, 2);
+            setFlags(shuffledFlags);
+        } catch (error) {
+            console.error('Error fetching flags:', error);
+        }
+    };
 
-    return { flags } 
+    useEffect(() => {
+        fetchFlags();
+    }, []);
+
+    return { flags, fetchFlags } 
 }

@@ -4,18 +4,14 @@ import { createContext, useEffect, useState } from "react"
 
 export const SessionContext = createContext()
 
-const setNewLeaderboard = (leaderboard) => {
-    localStorage.setItem('leaderboard', leaderboard)
-}
-
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-const initialLeaderboard = localStorage.getItem('leaderboard') ? localStorage.getItem('leaderboard') : []
+const initialLeaderboard = localStorage.getItem('leaderboard') || [{name: "Nombre", score: "Puntaje"}]
 
 export function SessionProvider ({children}) {
-    const { flags } = useFlags()
+    const { flags, fetchFlags } = useFlags()
     const [session, setSession] = useState({
         username: localStorage.getItem('username') || '',
         leaderboard: initialLeaderboard,
@@ -35,13 +31,20 @@ export function SessionProvider ({children}) {
         }    
     }, [flags])
 
-    const resetGame = () => {
+    const resetGame = async () => {
         setSession((prevSession) => ({
             ...prevSession,
             score: 0,
             current: 0,
             country: "",
-            flags: useFlags()
+            flags: []
+        }));
+
+        await fetchFlags();
+
+        setSession((prevSession) => ({
+            ...prevSession,
+            flags: flags
         }));
     }
 
@@ -70,7 +73,7 @@ export function SessionProvider ({children}) {
 
     const changeLeaderboard = (newName, newScore) => {
         setSession((prevSession) => ({...prevSession, leaderboard: [...prevSession.leaderboard, {name: newName, score: newScore}]}))
-        setNewLeaderboard(session.leader);
+        localStorage.setItem('leaderboard', session.leaderboard)
     }
 
     const hasFinished = () => {

@@ -15,10 +15,10 @@ export default function Game() {
 
   useEffect(() => {
     if(hasFinished()) {
-      // changeLeaderboard(session.username, session.score)
+      changeLeaderboard(session.username, session.score)
       router.push("/winner")
     }
-  }, [hasFinished, router])
+  }, [hasFinished, router, changeLeaderboard, session.username, session.score])
 
   return (
     <>

@@ -10,7 +10,7 @@ export default function Side() {
     return (
         <div className={styles.side}>
             <Link href="/leaderboard" style={{textDecoration: 'none'}}>
-                <h2>Tablero historico</h2>
+                <h2>Ranking historico</h2>
             </Link>
             <Link href="/" style={{textDecoration: 'none'}} onClick={handleLogout}>
                 <h2>Cambiar nombre</h2>

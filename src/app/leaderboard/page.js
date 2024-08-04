@@ -1,6 +1,7 @@
 'use client'
 import { useSession } from "@/hooks/useSession"
 import Link from "next/link"
+import styles from './page.module.css'
 
 
 export default function Leaderboard() {
@@ -11,22 +12,19 @@ export default function Leaderboard() {
             <Link href="/game" style={{textDecoration: 'none'}}>
                 <h2>Volver</h2>
             </Link>
-            <div className="leaderboard">
+            <h1>Ranking</h1>
+            <div className={styles.leaderboard}>
             {
-                session.leaderboard.map((element) => {
+                session.leaderboard &&
+                session.leaderboard.map((element, index) => {
                     return (
-                        <>
-                            <div>
-                                <h3>{element.name}</h3>
-                            </div>
-                            <div>
-                                <h3>{element.score}</h3>
-                            </div>
-                        </>
+                        <div className={styles.leaderboardItem} key={index}>
+                            <h3>{element.name}</h3>
+                            <h3>{element.score}</h3>
+                        </div>
                     )
                 })
             }
-                
             </div>
         </>
     )
