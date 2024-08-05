@@ -13,7 +13,7 @@ const initialLeaderboard = [{name: "Nombre", score: "Puntaje"}]
 export function SessionProvider ({children}) {
     const { flags, fetchFlags } = useFlags()
     const [session, setSession] = useState({
-        username: localStorage.getItem('username') || '',
+        username: '',
         leaderboard: initialLeaderboard,
         score: 0,
         current: 0,
@@ -27,7 +27,8 @@ export function SessionProvider ({children}) {
                 ...prevSession,
                 country: flags[getRandomInt(flags.length)],
                 flags: flags,
-                leaderboard: JSON.parse(localStorage.getItem('leaderboard'))
+                leaderboard: JSON.parse(localStorage.getItem('leaderboard')),
+                username: localStorage.getItem('username')
             }));
         }    
     }, [flags])
