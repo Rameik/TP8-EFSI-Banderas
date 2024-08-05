@@ -14,7 +14,7 @@ export function SessionProvider ({children}) {
     const { flags, fetchFlags } = useFlags()
     const [session, setSession] = useState({
         username: '',
-        leaderboard: initialLeaderboard,
+        leaderboard: [{name: "Nombre", score: "Puntaje"}],
         score: 0,
         current: 0,
         country: null,
@@ -74,7 +74,8 @@ export function SessionProvider ({children}) {
     }
 
     const changeLeaderboard = (newName, newScore) => {
-        if(session.leaderboard.length < 10 || !session.leaderboard) {
+        if(!session.leaderboard) return
+        if(session.leaderboard.length < 10) {
             setSession((prevSession) => ({...prevSession, leaderboard: [...prevSession.leaderboard, {name: newName, score: newScore}].sort((a, b) => b.score - a.score)}))
         }
         else if(session.leaderboard.length >= 10 && session.leaderboard[session.leaderboard.length - 1].score < newScore) {
