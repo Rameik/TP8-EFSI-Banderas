@@ -74,14 +74,13 @@ export function SessionProvider ({children}) {
     }
 
     const changeLeaderboard = (newName, newScore) => {
-        if(!session.leaderboard) return
         if(session.leaderboard.length < 10) {
             setSession((prevSession) => ({...prevSession, leaderboard: [...prevSession.leaderboard, {name: newName, score: newScore}].sort((a, b) => b.score - a.score)}))
         }
         else if(session.leaderboard.length >= 10 && session.leaderboard[session.leaderboard.length - 1].score < newScore) {
             setSession((prevSession) => ({...prevSession, leaderboard: [...prevSession.leaderboard, {name: newName, score: newScore}].sort((a, b) => b.score - a.score).slice(0, 10)}))
         }
-        window.localStorage.setItem('leaderboard', JSON.stringify(session.leaderboard))
+        localStorage.setItem('leaderboard', JSON.stringify(session.leaderboard))
     }
 
     const hasFinished = () => {
