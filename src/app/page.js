@@ -19,7 +19,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (localStorage.getItem('username')) {
+    if (window.localStorage.getItem('username')) {
       router.push('/game');
     }
   }, [router]);
