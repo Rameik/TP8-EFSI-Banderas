@@ -15,7 +15,7 @@ export function useFlags () {
         try {
             const response = await fetch(`https://countriesnow.space/api/v0.1/countries/flag/images`);
             const data = await response.json();
-            const shuffledFlags = shuffle(data.data).slice(0, 2);
+            const shuffledFlags = shuffle(data.data).slice(0, 10);
             setFlags(shuffledFlags);
         } catch (error) {
             console.error('Error fetching flags:', error);

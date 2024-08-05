@@ -8,7 +8,7 @@ export default function Header() {
     return(
         <div className={styles.header}>
             <h2>{session.username}</h2>
-            <h1>{session.flags && `${session.current}/${20}`}</h1>
+            <h1>{session.flags && `${session.current}/${10}`}</h1>
             <h2>Puntaje: {session.score}</h2>
         </div>
     )

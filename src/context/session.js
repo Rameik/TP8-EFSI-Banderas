@@ -8,7 +8,7 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-const initialLeaderboard = localStorage.getItem('leaderboard') || [{name: "Nombre", score: "Puntaje"}]
+const initialLeaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [{name: "Nombre", score: "Puntaje"}]
 
 export function SessionProvider ({children}) {
     const { flags, fetchFlags } = useFlags()
@@ -72,13 +72,18 @@ export function SessionProvider ({children}) {
     }
 
     const changeLeaderboard = (newName, newScore) => {
-        setSession((prevSession) => ({...prevSession, leaderboard: [...prevSession.leaderboard, {name: newName, score: newScore}]}))
-        localStorage.setItem('leaderboard', session.leaderboard)
+        if(session.leaderboard.length >= 10 && session.leaderboard[session.leaderboard.length - 1].score < newScore) {
+            setSession((prevSession) => ({...prevSession, leaderboard: [...prevSession.leaderboard, {name: newName, score: newScore}].sort((a, b) => b.score - a.score).slice(0, 10)}))
+        }
+        else if(session.leaderboard.length < 10) {
+            setSession((prevSession) => ({...prevSession, leaderboard: [...prevSession.leaderboard, {name: newName, score: newScore}].sort((a, b) => b.score - a.score)}))
+        }
+        localStorage.setItem('leaderboard', JSON.stringify(session.leaderboard))
     }
 
     const hasFinished = () => {
         if(session.flags) {
-            return session.current === 2;
+            return session.current === 10;
         }
         return false
     }

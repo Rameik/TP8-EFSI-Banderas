@@ -18,7 +18,7 @@ export default function Game() {
       changeLeaderboard(session.username, session.score)
       router.push("/winner")
     }
-  }, [hasFinished, router, changeLeaderboard, session.username, session.score])
+  }, [router, session.username, session.score])
 
   return (
     <>
