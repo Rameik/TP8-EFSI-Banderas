@@ -22,13 +22,19 @@ export function SessionProvider ({children}) {
     })
 
     useEffect(() => {
+        setSession((prevSession) => ({
+            ...prevSession,
+            leaderboard: JSON.parse(localStorage.getItem('leaderboard')) || initialLeaderboard,
+            username: localStorage.getItem('username') || ''
+        }));
+    }, [])
+
+    useEffect(() => {
         if (flags && flags.length > 0) {
             setSession((prevSession) => ({
                 ...prevSession,
                 country: flags[getRandomInt(flags.length)],
-                flags: flags,
-                leaderboard: JSON.parse(localStorage.getItem('leaderboard')) || initialLeaderboard,
-                username: localStorage.getItem('username') || ''
+                flags: flags
             }));
         }    
     }, [flags])
